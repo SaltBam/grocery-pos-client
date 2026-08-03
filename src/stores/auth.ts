@@ -3,11 +3,21 @@ import { ref, computed } from 'vue';
 import api from '@/axios';
 import router from '@/router';
 
+export enum Role {
+    Seller = 'SELLER',
+    Adjuster = 'ADJUSTER',
+    Restocker = 'RESTOCKER',
+    UserManager = 'USER_MANAGER',
+    Admin = 'ADMIN',
+    Unauthenticated = 'UNAUTHENTICATED',
+}
+
 export interface User {
     id?: number;
     username?: string;
     email?: string;
     name?: string;
+    roles?: Role[];
     [key: string]: unknown;
 }
 
@@ -34,10 +44,8 @@ export const useAuthStore = defineStore('auth', () => {
         const response = await api.post('/auth/login', { username, password });
         const data = response.data;
         console.log({ data });
-        user.value = data.user;
-
-        localStorage.setItem('user', JSON.stringify(data.user));
-
+        // Immediately fetch full profile so roles are available
+        await fetchMe();
         return data;
     };
 
@@ -56,7 +64,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     const fetchMe = async (): Promise<User | null> => {
         try {
-            const response = await api.get('/auth/profile');
+            const response = await api.get('/users/profile');
             user.value = response.data;
             console.log(user.value);
             localStorage.setItem('user', JSON.stringify(user.value));
@@ -68,5 +76,11 @@ export const useAuthStore = defineStore('auth', () => {
         }
     };
 
-    return { user, isAuthenticated, login, logout, fetchMe };
+    const hasRole = (role: Role): boolean => {
+        return user.value?.roles?.includes(role) ?? false;
+    };
+
+    const isAdmin = computed(() => hasRole(Role.Admin));
+
+    return { user, isAuthenticated, login, logout, fetchMe, hasRole, isAdmin };
 });
