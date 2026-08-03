@@ -17,14 +17,17 @@
             <v-list-item
                 prepend-icon="mdi-view-dashboard-outline"
                 title="Dashboard"
+                :to="{ name: 'Dashboard' }"
                 rounded="lg"
                 color="amber-darken-2"
                 base-color="white"
             />
 
             <v-list-item
-                prepend-icon="mdi-chart-bar"
-                title="Analytics"
+                v-if="canViewSales"
+                prepend-icon="mdi-cart-outline"
+                title="Sales"
+                :to="{ name: 'Sales' }"
                 rounded="lg"
                 color="amber-darken-2"
                 base-color="white"
@@ -40,6 +43,7 @@
             </v-list-subheader>
 
             <v-list-item
+                v-if="canViewProducts"
                 prepend-icon="mdi-format-list-bulleted"
                 title="Product List"
                 :to="{ name: 'Products' }"
@@ -49,6 +53,7 @@
             />
 
             <v-list-item
+                v-if="canViewInventory"
                 prepend-icon="mdi-package-variant-closed"
                 title="Inventory"
                 :to="{ name: 'Inventories' }"
@@ -58,6 +63,7 @@
             />
 
             <v-list-item
+                v-if="canViewRestocks"
                 prepend-icon="mdi-truck-delivery-outline"
                 title="Restock History"
                 rounded="lg"
@@ -67,6 +73,7 @@
             />
 
             <v-list-item
+                v-if="canViewAdjustments"
                 prepend-icon="mdi-clipboard-edit-outline"
                 title="Adjustment History"
                 :to="{ name: 'Adjustments' }"
@@ -85,16 +92,20 @@
             </v-list-subheader>
 
             <v-list-item
+                v-if="canViewUsers"
                 prepend-icon="mdi-account-multiple-outline"
                 title="Users"
+                :to="{ name: 'Users' }"
                 rounded="lg"
                 color="amber-darken-2"
                 base-color="white"
             />
 
             <v-list-item
+                v-if="canViewUsers"
                 prepend-icon="mdi-shield-account-outline"
                 title="Roles"
+                :to="{ name: 'Roles' }"
                 rounded="lg"
                 color="amber-darken-2"
                 base-color="white"
@@ -118,6 +129,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useAuthStore, Role } from '@/stores/auth';
+
+const authStore = useAuthStore();
 
 const props = defineProps({
     modelValue: {
@@ -133,4 +147,29 @@ const drawerModel = computed({
 });
 
 const rail = ref(false);
+
+const canViewProducts = computed(
+    () =>
+        authStore.hasRole(Role.Restocker) ||
+        authStore.hasRole(Role.Adjuster) ||
+        authStore.isAdmin,
+);
+const canViewInventory = computed(
+    () =>
+        authStore.hasRole(Role.Restocker) ||
+        authStore.hasRole(Role.Adjuster) ||
+        authStore.isAdmin,
+);
+const canViewRestocks = computed(
+    () => authStore.hasRole(Role.Restocker) || authStore.isAdmin,
+);
+const canViewAdjustments = computed(
+    () => authStore.hasRole(Role.Adjuster) || authStore.isAdmin,
+);
+const canViewUsers = computed(
+    () => authStore.hasRole(Role.UserManager) || authStore.isAdmin,
+);
+const canViewSales = computed(
+    () => authStore.hasRole(Role.Seller) || authStore.isAdmin,
+);
 </script>

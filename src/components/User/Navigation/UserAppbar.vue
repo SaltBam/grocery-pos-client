@@ -24,17 +24,23 @@
         <template #append>
             <div class="d-none d-md-flex align-center ga-2 mr-6">
                 <v-btn
+                    v-if="canSell"
                     prepend-icon="mdi-cart-plus"
                     color="primary"
                     variant="flat"
                     rounded="pill"
                     class="text-none px-6 font-weight-bold mr-2"
                     elevation="0"
+                    :to="{ name: 'Sell' }"
                 >
                     Sell
                 </v-btn>
 
-                <v-tooltip text="Add Product" location="bottom">
+                <v-tooltip
+                    v-if="canAddProduct"
+                    text="Add Product"
+                    location="bottom"
+                >
                     <template #activator="{ props }">
                         <v-btn
                             v-bind="props"
@@ -46,7 +52,11 @@
                     </template>
                 </v-tooltip>
 
-                <v-tooltip text="Restock Inventory" location="bottom">
+                <v-tooltip
+                    v-if="canRestock"
+                    text="Restock Inventory"
+                    location="bottom"
+                >
                     <template #activator="{ props }">
                         <v-btn
                             v-bind="props"
@@ -58,7 +68,11 @@
                     </template>
                 </v-tooltip>
 
-                <v-tooltip text="Adjust Stock" location="bottom">
+                <v-tooltip
+                    v-if="canAdjust"
+                    text="Adjust Stock"
+                    location="bottom"
+                >
                     <template #activator="{ props }">
                         <v-btn
                             v-bind="props"
@@ -162,7 +176,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore, Role } from '@/stores/auth';
 
 defineEmits(['toggle-drawer']);
 const router = useRouter();
@@ -183,4 +197,17 @@ const logout = async () => {
     await authStore.logout();
     console.log('logging out');
 };
+
+const canSell = computed(
+    () => authStore.hasRole(Role.Seller) || authStore.isAdmin,
+);
+const canAddProduct = computed(
+    () => authStore.hasRole(Role.Restocker) || authStore.isAdmin,
+);
+const canRestock = computed(
+    () => authStore.hasRole(Role.Restocker) || authStore.isAdmin,
+);
+const canAdjust = computed(
+    () => authStore.hasRole(Role.Adjuster) || authStore.isAdmin,
+);
 </script>
