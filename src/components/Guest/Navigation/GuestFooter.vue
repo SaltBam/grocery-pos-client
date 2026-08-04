@@ -5,9 +5,9 @@
     >
         <!-- Logo and Button -->
         <div class="d-flex justify-space-between align-center w-100 py-4">
-            <img :src="logo" alt="logo" width="145" height="80" />
-            <v-btn class="rounded-xl inquire-btn px-5" to="/contact-us"
-                >Inquire</v-btn
+            <img :src="logo" alt="Grocery POS Logo" width="145" height="60" />
+            <v-btn class="rounded-xl inquire-btn px-5" to="/login"
+                >Get Started</v-btn
             >
         </div>
 
@@ -72,8 +72,8 @@
                 </ul>
                 <p class="font-weight-bold mt-6 mb-2">Address</p>
                 <span
-                    >60 Sct. Chuatoco St., Quezon City, 1103<br />Metro
-                    Manila</span
+                    >123 Commerce St., Business District<br />Metro City,
+                    12345</span
                 >
             </v-col>
 
@@ -118,27 +118,27 @@
 
 <script setup lang="ts">
 import version from '@/utils/version';
-import logo from '@/assets/logo-white.png';
+import logo from '@/assets/logo-white.svg';
 import { ref } from 'vue';
 import facebook from '@/assets/Socials/facebook.svg';
 import tiktok from '@/assets/Socials/tiktok.svg';
 import website from '@/assets/Socials/website.svg';
 import contact_no from '@/assets/Socials/contact_no.svg';
 
-const facebook_link = ref('www.facebook.com/rehubrealestatehubinc');
-const tiktok_link = ref('www.tiktok.com/@rehubrealestate');
-const website_link = ref('www.rehubrealestate.com');
-const contact_number = ref('+63 997 602 2877');
+const facebook_link = ref('www.facebook.com/grocerypos');
+const tiktok_link = ref('www.tiktok.com/@grocerypos');
+const website_link = ref('www.grocerypos.example.com');
+const contact_number = ref('+1 (555) 123-4567');
 
 const scrolltoTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const pages = [
-    { name: 'Properties', to: '/properties' },
-    { name: 'About Us', to: '/about' },
-    { name: 'Inquire Now', to: '/contact-us' },
-    { name: 'Favorites', to: '/favorites' },
+    { name: 'Dashboard', to: '/admin' },
+    { name: 'Products', to: '/admin/products' },
+    { name: 'Sales', to: '/admin/sales' },
+    { name: 'Support', to: '/login' },
 ];
 </script>
 

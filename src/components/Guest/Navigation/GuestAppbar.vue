@@ -75,7 +75,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import logoPath from '@/assets/logo-white.png';
+import logoPath from '@/assets/logo-white.svg';
 
 const drawer = ref(false);
 const route = useRoute();

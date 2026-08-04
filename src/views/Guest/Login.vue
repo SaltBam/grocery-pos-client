@@ -7,7 +7,7 @@
             md="6"
             class="d-none d-md-flex align-start"
             style="
-                background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200')
+                background: url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200')
                     center/cover no-repeat;
                 position: relative;
             "
@@ -35,13 +35,13 @@
                         text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.5);
                     "
                 >
-                    Explore Opportunities<br />List Your Properties!
+                    Smart Grocery<br />Management
                 </div>
                 <p
                     class="font-weight-medium"
                     style="text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.4)"
                 >
-                    Property solutions made simple.
+                    Efficient POS solutions for your store.
                 </p>
             </div>
         </v-col>
@@ -60,7 +60,7 @@
             >
                 <img
                     :src="logo"
-                    alt="MyHomeTown Logo"
+                    alt="Grocery POS Logo"
                     height="60"
                     style="cursor: pointer"
                 />
@@ -187,7 +187,7 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import type { VForm } from 'vuetify/components';
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/logo-icon.svg';
 
 const router = useRouter();
 const authStore = useAuthStore();
