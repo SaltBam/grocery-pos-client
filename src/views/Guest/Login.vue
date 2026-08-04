@@ -197,7 +197,7 @@ const showPassword = ref(false);
 const rememberMe = ref(false);
 const errorMsg = ref('');
 
-const form = reactive({ username: '', password: '' });
+const form = reactive({ username: 'admin', password: 'a' });
 
 const usernameRules = [
     (v: string) => !!v || 'username is required',
